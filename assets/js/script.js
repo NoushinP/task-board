@@ -44,7 +44,7 @@ function createTaskCard(task) {
             });
           },
         });
-        
+
     const cardDeleteBtn = $('<button>')
         .addClass('btn btn-danger delete')
         .text('Delete')
@@ -87,7 +87,7 @@ function handleDrop(event, ui) {
     printProjectData();
 }
 
-// Todo: create a function to handle adding a new task
+// function to handle adding a new task
 function handleAddTask(event) {
     event.preventDefault();
     var task = {
