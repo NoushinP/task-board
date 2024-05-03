@@ -33,7 +33,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="task-form">
+                <form id="task-form" draggable="true">
                     <div class="mb-3">
                       <label for="task-title" class="form-label">Task Title</label>
                       <input type="text" class="form-control" id="task-title" aria-describedby="emailHelp">
@@ -46,7 +46,7 @@
                         <label class="task-description" for="exampleCheck1">Task Description</label>
                       <textarea rows="3" col="90" class="form-control" id="task-description"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" id="submit" class="btn btn-primary">Submit</button>
                   </form>
             </div>
           </div>

@@ -1,10 +1,12 @@
 body {
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
+    background-color: rgb(214, 192, 195);
   }
   
   .swim-lanes {
     min-height: 60vh;
+    background-color: rgb(202, 82, 116);
   }
   
   .task-card {
