@@ -11,10 +11,10 @@ let nextId = JSON.parse(localStorage.getItem("nextId")) || "";
 
 
 //if i have something in the local storage then clear the list, then refill the list with the info from localstorage
-newTask = { taskTitleInput, taskDueDate, taskDescription };
-taskCard = JSON.parse(localStorage.getItem('tasks')) || [];
-taskCard.push(newTask);
-localStorage.setItem('tasks', JSON.stringify(taskCard));
+let newTask = { taskTitleInput, taskDueDate, taskDescription, id: generateTaskId() };// might o be needed
+let taskCardToBe = JSON.parse(localStorage.getItem('tasks')) || [];
+taskCardToBe.push(newTask);
+localStorage.setItem('tasks', JSON.stringify(taskCardToBe));
 
 function generateTaskId() {
     return Math.floor(Math.random() * 9999);
@@ -24,13 +24,13 @@ function createTaskCard(task) {
     if(task.id === undefined){
     return;
 }
-    const taskCard = $('<div>')
+    let taskCard = $('<div>')
         .addClass('card task-card draggable')
         .attr('data-task-id', task.id);
-    const cardHeader = $('<div>').addClass('card-header').text(task.title);
-    const cardBody = $('<div>').addClass('card-body');
-    const cardDescription = $('<p>').addClass('card-text').text(task.description);
-    const cardDueDate = $('<p>').addClass('card-text').text(task.dueDate);
+    let cardHeader = $('<div>').addClass('card-header').text(task.title);
+    let cardBody = $('<div>').addClass('card-body');
+    let cardDescription = $('<p>').addClass('card-text').text(task.description);
+    let cardDueDate = $('<p>').addClass('card-text').text(task.dueDate);
     taskCard.addClass('draggable');
     taskCard.draggable({
           opacity: 0.9,
@@ -66,20 +66,21 @@ function createTaskCard(task) {
 
     cardBody.append(cardDescription, cardDueDate, cardDeleteBtn);
     taskCard.append(cardHeader, cardBody);
-    todoCard.append(taskCard);
+    return taskCard;
 
 }
 
-function handleDrop(event, ui) {
-    const tasks = readProjectsFromStorage();
-    const taskId = ui.draggable[0].dataset.taskId;
-    const newStatus = event.target.id;
 
+function handleDrop(event, ui) {
+    let tasks = readProjectsFromStorage();
+    let taskId = ui.draggable[0].dataset.taskId;
+    let newStatus = event.target.id;
+    console.log(newStatus)
     for (let task of tasks) {
-        if (task.id === taskId) {
+        if (task.id.toString() === taskId) {
             console.log(task.status);
             task.status = newStatus;
-         
+          console.log(task.status)
         }
     }
 
@@ -95,15 +96,17 @@ function handleAddTask(event) {
         title: taskTitleInput.val(),
         description: taskDescription.val(),
         dueDate: taskDueDate.val(),
-        status: "todo"
+        status: "to-do"
     }
-    taskList.push(task);
-    createTaskCard(task);
-    localStorage.setItem("tasks", JSON.stringify(taskList));
+    let projects = readProjectsFromStorage();
+    projects.push(task);
+    localStorage.setItem("tasks", JSON.stringify(projects));
     localStorage.setItem("nextId", task.id);
+    printProjectData();
     taskTitleInput.val("");
     taskDescription.val("");
     taskDueDate.val("");
+    $('#formModal').modal('toggle');
 }
 
 function handleDeleteTask() {
@@ -120,29 +123,31 @@ function readProjectsFromStorage() {
     if (!projects) {
       projects = [];
     }
-  console.log(JSON.stringify(projects));
     return projects;
   }
 
   
 function printProjectData() {
-    const tasks = readProjectsFromStorage();
-    const todoList = $('#todo-cards');
+    let tasks = readProjectsFromStorage();
+    let todoList = $('#todo-cards');
     todoList.empty();
   
-    const inProgressList = $('#in-progress-cards');
+    let inProgressList = $('#in-progress-cards');
     inProgressList.empty();
   
-    const doneList = $('#done-cards');
+    let doneList = $('#done-cards');
     doneList.empty();
 
     for (let task of tasks) {
-        console.log("task-"+task.status);
+        console.log(task.status);
       if (task.status === 'to-do') {
+        console.log('to-do')
         todoList.append(createTaskCard(task));
       } else if (task.status === 'in-progress') {
+        console.log('in-progress')
         inProgressList.append(createTaskCard(task));
       } else if (task.status === 'done') {
+        console.log('done')
         doneList.append(createTaskCard(task));
       }
     }

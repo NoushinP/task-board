@@ -1,5 +1,5 @@
 In this task-board project we aim to perfom the following functions: 
-(This assignment is not yet complete, working on the droppable section/in-progress. Thank you)
+(Updated)
 
 "WHEN I open the task board
 THEN the list of project tasks is displayed in columns representing the task progress state (Not Yet Started, In Progress, Completed)
